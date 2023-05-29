@@ -17,19 +17,19 @@ namespace ProEventos.API
             CreateHostBuilder(args).Build().Run();
         }
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseKestrel(kestrelOptions =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    kestrelOptions.ConfigureHttpsDefaults(httpsOptions =>
+                    webBuilder.UseKestrel(kestrelOptions =>
                     {
-                        httpsOptions.SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13;
+                        kestrelOptions.ConfigureHttpsDefaults(httpsOptions =>
+                        {
+                            httpsOptions.SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13;
+                        });
                     });
-                });
 
-                webBuilder.UseStartup<Startup>();
-            });
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
